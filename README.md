@@ -1,133 +1,67 @@
-# Task 1: Term Deposit Subscription Prediction
+# Loan Default Risk with Business Cost Optimization
 
-## 📌 Objective
-The objective of this project is to predict whether a bank customer will subscribe to a term deposit as a result of a marketing campaign.
-
-This is a binary classification problem where:
-- 1 → Customer subscribed to term deposit
-- 0 → Customer did not subscribe
+## Objective
+Predict the likelihood of a customer defaulting on a loan and optimize the decision threshold based on business cost-benefit analysis. This helps financial institutions minimize financial loss and make better loan approval decisions.
 
 ---
 
-## 📊 Dataset
-- **Name:** Bank Marketing Dataset
-- **Source:** UCI Machine Learning Repository / Kaggle
-- **File Used:** bank-additional-full.csv
-- **Target Variable:** y (Yes/No)
-
-### Key Features:
-- age → Customer age
-- job → Occupation
-- marital → Marital status
-- education → Education level
-- housing → Housing loan status
-- loan → Personal loan status
-- contact → Communication type
-- campaign → Number of contacts during campaign
-- duration → Duration of last contact
-- economic indicators (e.g., euribor3m, emp.var.rate)
+## Dataset
+- **Dataset:** Home Credit Default Risk (Kaggle)
+- **Target Variable:** `TARGET` (0 = No Default, 1 = Default)
+- **Features:** Customer demographic, financial, and credit history attributes
+- **Size:** ~300,000 rows, 180+ features (sampled for memory efficiency)
 
 ---
 
-## 🛠 Tools & Libraries
-- Python
+## Tools & Libraries
+- Python 3
 - Pandas, NumPy
-- Matplotlib, Seaborn
 - Scikit-learn
-- SHAP (Explainable AI)
+- Seaborn, Matplotlib
+
+## Approach
+1. **Data Cleaning**
+   - Dropped columns with >50% missing values
+   - Filled numeric columns with median and categorical columns with mode
+2. **Encoding**
+   - Applied One-Hot Encoding for categorical variables
+3. **Train-Test Split**
+   - 80% train / 20% test
+4. **Model Training**
+   - Logistic Regression (max_iter=1000)
+5. **Prediction**
+   - Predicted probabilities for test set
+6. **Cost Optimization**
+   - Defined cost for false positives (FP = 1) and false negatives (FN = 5)
+   - Swept thresholds from 0.1 to 0.85
+   - Selected threshold minimizing total cost
+7. **Evaluation**
+   - Classification report (precision, recall, F1-score)
+8. **Feature Importance**
+   - Identified top features influencing default prediction
 
 ---
 
-## 🔍 Project Workflow
-
-### 1️⃣ Data Loading & Understanding
-- Loaded dataset using Pandas
-- Explored data using `.info()`, `.describe()`, and `.head()`
-
-### 2️⃣ Data Preprocessing
-- Converted target variable (yes/no → 1/0)
-- Applied One-Hot Encoding to categorical variables
-- Converted boolean values to numeric (0/1)
-- Ensured dataset contains only numeric values
-
-### 3️⃣ Exploratory Data Analysis (EDA)
-- Analyzed age distribution
-- Studied job-wise subscription patterns
-- Analyzed impact of contact type on subscription
-
-### Key Observations:
-- Certain job categories have higher subscription rates
-- Contact method significantly influences customer response
-- Campaign-related features impact success rate
+## Results
+- Optimal threshold: `0.20` (minimizes business cost)
+- Model performance (at optimal threshold):
+  - Accuracy: 91%
+  - F1-score: 95%
+  - Recall: 98%
+- Key features influencing default:
+  - `AMT_CREDIT`, `DAYS_BIRTH`, `EXT_SOURCE_3`, etc.
 
 ---
 
-## 🤖 Model Building
-
-### Models Used:
-- Logistic Regression
-- Random Forest Classifier
-
-### Training:
-- Split dataset into training (80%) and testing (20%)
-- Trained both models and compared performance
+## Insights
+- Adjusting the classification threshold based on business cost reduces total financial loss
+- High-risk customers can be identified early, improving loan approval decisions
+- Certain features strongly influence default risk (credit amount, age, external scoring)
 
 ---
 
-## 📈 Model Evaluation
-
-Evaluated using:
-- Accuracy Score
-- Confusion Matrix
-- F1 Score
-- ROC Curve (AUC)
-
-### Results:
-- Random Forest performed better than Logistic Regression
-- Model shows good classification performance
-- ROC curve indicates strong predictive capability
-
----
-
-## 🔥 Explainable AI (SHAP)
-
-- Used SHAP to interpret model predictions
-- Generated:
-  - SHAP summary (beeswarm) plot
-  - Individual prediction explanations (waterfall plots)
-
-### Insights from SHAP:
-- Duration of contact is a major factor
-- Economic indicators influence decisions
-- Campaign-related features affect outcomes
-
----
-
-## 🧠 Business Insights
-
-- Customers contacted via cellular are more likely to subscribe
-- Longer interaction duration increases conversion probability
-- Targeting specific job categories can improve marketing success
-- Campaign optimization can reduce costs and increase efficiency
-
----
-
-## ✅ Conclusion
-
-The Random Forest model successfully predicts customer subscription behavior with strong performance.
-
-SHAP analysis provides transparency into model decisions, making the model more trustworthy and useful for real-world business applications.
-
-This solution can help banks:
-- Improve marketing strategies
-- Target high-probability customers
-- Optimize campaign performance
-
----
-
-## 📂 Project Structure
-Term_Deposit_Prediction/
+## Repository Structure
+loan-default-risk-optimization/
 │
-├── term_deposit_prediction.ipynb
+├── loan_default_risk.ipynb
 └── README.md
-
